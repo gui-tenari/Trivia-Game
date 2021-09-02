@@ -1,4 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getTriviaToken as getTriviaTokenAction } from '../../redux/actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,6 +14,12 @@ class Login extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    const { getTriviaToken } = this.props;
+    getTriviaToken();
   }
 
   handleChange({ target: { name, value } }) {
@@ -39,17 +49,27 @@ class Login extends React.Component {
           value={ email }
           onChange={ this.handleChange }
         />
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ !name || !email.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g) }
-          onClick={ () => {} }
-        >
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ !name || !email.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g) }
+            onClick={ this.handleClick }
+          >
+            Jogar
+          </button>
+        </Link>
       </fieldset>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  getTriviaToken: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  getTriviaToken: () => dispatch(getTriviaTokenAction()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
