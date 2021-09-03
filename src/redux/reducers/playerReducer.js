@@ -1,8 +1,8 @@
 import { SET_TOKEN } from '../actions';
 
 const INITIAL_STATE = {
-  name: 'Pedro Sehn',
-  email: 'pedrorsehn@hotmail.com',
+  name: '',
+  email: '',
   token: '',
   assertions: 0,
   score: 0,
