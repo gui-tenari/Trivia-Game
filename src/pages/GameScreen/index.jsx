@@ -9,6 +9,7 @@ class GameScreen extends React.Component {
 
     this.getAvatar.bind(this);
   }
+  // teste
 
   getAvatar() {
     const { email } = this.props;
