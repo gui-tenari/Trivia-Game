@@ -1,4 +1,4 @@
-import { SET_TOKEN } from '../actions';
+import { LOGIN } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -8,8 +8,8 @@ const INITIAL_STATE = {
 
 const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case SET_TOKEN:
-    return { ...state, token: action.token };
+  case LOGIN:
+    return { ...state, token: action.token, name: action.name, email: action.email };
   default:
     return state;
   }

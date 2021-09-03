@@ -19,7 +19,8 @@ class Login extends React.Component {
 
   handleClick() {
     const { getTriviaToken } = this.props;
-    getTriviaToken();
+    const { name, email } = this.state;
+    getTriviaToken(name, email);
   }
 
   handleChange({ target: { name, value } }) {
@@ -72,7 +73,7 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getTriviaToken: () => dispatch(getTriviaTokenAction()),
+  getTriviaToken: (name, email) => dispatch(getTriviaTokenAction(name, email)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
