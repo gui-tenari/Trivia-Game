@@ -14,7 +14,6 @@ class GameScreen extends React.Component {
   getAvatar() {
     const { email } = this.props;
     const emailConvert = md5(email).toString();
-
     return (
       <img
         src={ `https://www.gravatar.com/avatar/${emailConvert}` }
