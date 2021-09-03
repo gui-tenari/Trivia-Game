@@ -19,7 +19,10 @@ class Login extends React.Component {
 
   handleClick() {
     const { getTriviaToken } = this.props;
+    const { name, email } = this.state;
     getTriviaToken();
+    const player = [{ name, email }];
+    localStorage.setItem('ranking', JSON.stringify(player));
   }
 
   handleChange({ target: { name, value } }) {
