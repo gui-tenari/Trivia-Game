@@ -1,9 +1,11 @@
 import { SET_TOKEN } from '../actions';
 
 const INITIAL_STATE = {
-  name: '',
-  email: '',
+  name: 'Pedro Sehn',
+  email: 'pedrorsehn@hotmail.com',
   token: '',
+  assertions: 0,
+  score: 0,
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {
