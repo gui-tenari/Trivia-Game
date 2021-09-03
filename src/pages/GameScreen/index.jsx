@@ -1,6 +1,7 @@
 import React from 'react';
 import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -47,4 +48,9 @@ GameScreen.propTypes = {
   email: PropTypes.string.isRequired,
 };
 
-export default GameScreen;
+const mapStateToProps = (payload) => ({
+  name: payload.player.name,
+  email: payload.player.email,
+});
+
+export default connect(mapStateToProps, null)(GameScreen);
