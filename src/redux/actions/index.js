@@ -29,5 +29,20 @@ export const fetchQuestions = () => async (dispatch, getState) => {
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const { results } = await response.json();
 
-  dispatch(setQuestions(results));
+  const questions = results.map((question) => ({
+    ...question,
+    answers: [question.correct_answer, ...question.incorrect_answers]
+      .map((answer) => ({ answer, aux: Math.random() }))
+      .sort((a, b) => a.aux - b.aux)
+      .map(({ answer }) => answer),
+  }));
+
+  dispatch(setQuestions(questions));
 };
+
+export const ANSWER_QUESTION = 'ANSWER_QUESTION';
+
+export const answerQuestion = (answered) => ({
+  type: ANSWER_QUESTION,
+  payload: answered,
+});
