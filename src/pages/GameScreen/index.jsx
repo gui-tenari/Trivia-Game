@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
-import { fetchQuestions } from '../../redux/actions';
+import { fetchQuestions, answerQuestion } from '../../redux/actions';
 import Question from '../../components/Question';
 import StopWatch from '../../components/StopWatch';
 
@@ -11,7 +11,12 @@ class GameScreen extends React.Component {
   constructor(props) {
     super(props);
 
-    this.getAvatar.bind(this);
+    this.state = {
+      currentQuestion: 0,
+    };
+
+    this.getAvatar = this.getAvatar.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -31,8 +36,23 @@ class GameScreen extends React.Component {
     );
   }
 
+  handleClick() {
+    const { history, questions, resetAnswer } = this.props;
+    const { currentQuestion } = this.state;
+
+    resetAnswer();
+    if (currentQuestion < questions.length - 1) {
+      this.setState(({ currentQuestion: current }) => ({
+        currentQuestion: current + 1,
+      }));
+    } else {
+      history.push('/feedback');
+    }
+  }
+
   render() {
-    const { questions, name } = this.props;
+    const { questions, name, answered } = this.props;
+    const { currentQuestion } = this.state;
 
     return (
       <>
@@ -51,8 +71,20 @@ class GameScreen extends React.Component {
           <StopWatch />
         </header>
         <main>
+          <p>30</p>
           {
-            questions.length && <Question { ...questions[0] } />
+            questions.length && <Question { ...questions[currentQuestion] } />
+          }
+          {
+            answered && (
+              <button
+                data-testid="btn-next"
+                type="button"
+                onClick={ this.handleClick }
+              >
+                Próxima
+              </button>
+            )
           }
         </main>
       </>
@@ -61,13 +93,18 @@ class GameScreen extends React.Component {
 }
 
 GameScreen.propTypes = {
+  email: PropTypes.string.isRequired,
+  answered: PropTypes.bool.isRequired,
   getQuestions: PropTypes.func.isRequired,
+  resetAnswer: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  name: PropTypes.string.isRequired,
   questions: PropTypes.arrayOf(PropTypes.shape({
     question: PropTypes.string,
     category: PropTypes.string,
   })),
-  name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
 };
 
 GameScreen.defaultProps = {
@@ -78,10 +115,12 @@ const mapStateToProps = (state) => ({
   questions: state.game.questions,
   name: state.player.name,
   email: state.player.email,
+  answered: state.game.isAnswered,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchQuestions()),
+  resetAnswer: () => dispatch(answerQuestion(false)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);
