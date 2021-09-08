@@ -1,15 +1,17 @@
-export const SET_TOKEN = 'SET_TOKEN';
+export const LOGIN = 'LOGIN';
 
-const setToken = (token) => ({
-  type: SET_TOKEN,
+const login = (token, name, email) => ({
+  type: LOGIN,
   token,
+  name,
+  email,
 });
 
-export const getTriviaToken = () => (dispatch) => {
+export const getTriviaToken = (name, email) => (dispatch) => {
   fetch('https://opentdb.com/api_token.php?command=request')
     .then((data) => data.json())
     .then(({ token }) => {
-      dispatch(setToken(token));
+      dispatch(login(token, name, email));
       localStorage.setItem('token', token);
     });
 };
