@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './styles.css';
+
 class Question extends React.Component {
   constructor(props) {
     super(props);
@@ -45,7 +47,7 @@ class Question extends React.Component {
                   answer === correctAnswer ? 'correct-answer' : `wrong-answer-${index}`
                 }
                 disabled={ selected }
-                className={ selected && answer === correctAnswer ? 'right' : 'wrong' }
+                className={ selected && (answer === correctAnswer ? 'right' : 'wrong') }
                 type="button"
                 key={ answer }
                 onClick={ this.handleClick }
