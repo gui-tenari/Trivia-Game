@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { answerQuestion } from '../../redux/actions/index';
@@ -29,7 +30,7 @@ class StopWatch extends Component {
           timer: previous.timer - 1,
         }));
       } else {
-        answered();
+        answered(true);
         clearInterval(Id);
       }
     }, ONE_SECOND);
@@ -43,12 +44,12 @@ class StopWatch extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  isAnswered: state.gameReducer.isAnswered,
-});
+StopWatch.propTypes = {
+  answered: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  answered: () => dispatch(answerQuestion()),
+  answered: (payload) => dispatch(answerQuestion(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StopWatch);
+export default connect(null, mapDispatchToProps)(StopWatch);

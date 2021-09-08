@@ -71,7 +71,6 @@ class GameScreen extends React.Component {
           <StopWatch />
         </header>
         <main>
-          <p>30</p>
           {
             questions.length && <Question { ...questions[currentQuestion] } />
           }
