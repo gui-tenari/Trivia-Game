@@ -7,12 +7,13 @@ const login = (token, name, email) => ({
   email,
 });
 
-export const getTriviaToken = (name, email) => (dispatch) => {
+export const getTriviaToken = (name, email, history) => (dispatch) => {
   fetch('https://opentdb.com/api_token.php?command=request')
     .then((data) => data.json())
     .then(({ token }) => {
       dispatch(login(token, name, email));
       localStorage.setItem('token', token);
+      history.push('/game');
     });
 };
 
@@ -46,3 +47,23 @@ export const answerQuestion = (answered) => ({
   type: ANSWER_QUESTION,
   payload: answered,
 });
+
+export const SET_SCORE = 'SET_SCORE';
+
+const setScore = (score) => ({
+  type: SET_SCORE,
+  payload: score,
+});
+
+export const calculateScoreThunk = (difficulty, timer) => (dispatch) => {
+  const multiplicator = {
+    hard: 3,
+    medium: 2,
+    easy: 1,
+  };
+  const BASE_SCORE = 10;
+  const score = BASE_SCORE + (timer * multiplicator[difficulty]);
+  // const state = getState();
+  // localStorage.setItem()
+  dispatch(setScore(score));
+};
