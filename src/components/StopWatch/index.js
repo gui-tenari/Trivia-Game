@@ -8,7 +8,6 @@ class StopWatch extends Component {
     super(props);
     this.state = {
       isStopped: false,
-      timer: 30,
     };
 
     this.timer = this.timer.bind(this);
@@ -20,34 +19,31 @@ class StopWatch extends Component {
   }
 
   componentDidUpdate() {
-    const countDown = 29;
-    const { timer, isStopped } = this.state;
-    const { selected } = this.props;
+    const countDown = 30;
+    const { isStopped } = this.state;
+    const { selected, timer } = this.props;
     if (isStopped && timer < countDown && !selected) {
       this.resetTimer();
-    // } else if (!selected && timer === countDown) {
-    //   this.timer();
     }
   }
 
   resetTimer() {
-    this.setState({ timer: 30 });
-    this.timer()
+    const { changeTimer } = this.props;
+    const COUNTDOWN = 30;
+    changeTimer(COUNTDOWN);
+    this.timer();
   }
 
   timer() {
     const { answered } = this.props;
     const ONE_SECOND = 1000;
+    this.setState({ isStopped: false });
     const Id = setInterval(() => {
-      const { timer  } = this.state;
-      const { selected } = this.props;
+      const { selected, changeTimer, timer } = this.props;
       if (!selected && timer > 0) {
-        this.setState((previous) => ({
-          timer: previous.timer - 1,
-          isStopped: false,
-        }));
+        changeTimer(timer - 1);
       } else {
-        answered(true);
+        answered();
         clearInterval(Id);
         this.setState({ isStopped: true });
       }
@@ -55,16 +51,18 @@ class StopWatch extends Component {
   }
 
   render() {
-    const { timer } = this.state;
+    const { timer } = this.props;
     return (
-      <p>{ timer }</p>
+      <div>{ timer }</div>
     );
   }
 }
 
 StopWatch.propTypes = {
+  changeTimer: PropTypes.func.isRequired,
   answered: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired,
+  timer: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -72,7 +70,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  answered: (payload) => dispatch(answerQuestion(payload)),
+  answered: () => dispatch(answerQuestion(true)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StopWatch);
