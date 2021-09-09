@@ -4,8 +4,33 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 class FeedbackPage extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      feedbackMsg: '',
+    };
+
+    this.handleFeedbackMsg = this.handleFeedbackMsg.bind(this);
+  }
+
+  componentDidMount() {
+    const { assertions } = this.props;
+    this.handleFeedbackMsg(assertions);
+    console.log(this.state);
+  }
+
+  handleFeedbackMsg(assertionsNumber) {
+    const NUMBER_TREE = 3;
+
+    if (assertionsNumber < NUMBER_TREE) {
+      return 'Podia ser melhor...';
+    }
+    return 'Mandou bem!';
+  }
+
   render() {
-    const { email, name, score } = this.props;
+    const { email, name, score, assertions } = this.props;
     const avatarPath = md5(email).toString();
     return (
       <>
@@ -16,21 +41,24 @@ class FeedbackPage extends React.Component {
           src={ `https://www.gravatar.com/avatar/${avatarPath}` }
         />
         <div data-testid="header-score">{ score }</div>
+        <div data-testid="feedback-text">{ this.handleFeedbackMsg(assertions) }</div>
       </>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  email: state.player.email,
+  email: state.player.gravatarEmail,
   name: state.player.name,
   score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 FeedbackPage.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(FeedbackPage);
