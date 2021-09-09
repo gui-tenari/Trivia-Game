@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { fetchQuestions, answerQuestion } from '../../redux/actions';
 import Question from '../../components/Question';
+import StopWatch from '../../components/StopWatch';
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -67,9 +68,9 @@ class GameScreen extends React.Component {
           >
             0
           </span>
+          <StopWatch />
         </header>
         <main>
-          <p>30</p>
           {
             questions.length && <Question { ...questions[currentQuestion] } />
           }
