@@ -41,7 +41,16 @@ class FeedbackPage extends React.Component {
           alt="profile avatar"
           src={ `https://www.gravatar.com/avatar/${avatarPath}` }
         />
-        <div data-testid="header-score">{ score }</div>
+        <div>
+          <div data-testid="header-score">
+            Final Score:
+            { score }
+          </div>
+          <div data-testid="feedback-total-question">
+            Acertions:
+            { assertions }
+          </div>
+        </div>
         <div data-testid="feedback-text">{ this.handleFeedbackMsg(assertions) }</div>
         <Link to="/">
           <button type="button" data-testid="btn-play-again">Jogar novamente</button>
