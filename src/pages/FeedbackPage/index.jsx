@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { Link } from 'react-router-dom';
 
 class FeedbackPage extends React.Component {
   constructor() {
@@ -40,8 +41,21 @@ class FeedbackPage extends React.Component {
           alt="profile avatar"
           src={ `https://www.gravatar.com/avatar/${avatarPath}` }
         />
-        <div data-testid="header-score">{ score }</div>
+        <div data-testid="header-score">
+          { score }
+        </div>
+        <div>
+          <div data-testid="feedback-total-score">
+            { score }
+          </div>
+          <div data-testid="feedback-total-question">
+            { assertions }
+          </div>
+        </div>
         <div data-testid="feedback-text">{ this.handleFeedbackMsg(assertions) }</div>
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+        </Link>
       </>
     );
   }
