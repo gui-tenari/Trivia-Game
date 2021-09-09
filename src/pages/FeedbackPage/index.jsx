@@ -57,7 +57,7 @@ class FeedbackPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  email: state.player.email,
+  email: state.player.gravatarEmail,
   name: state.player.name,
   score: state.player.score,
   assertions: state.player.assertions,
