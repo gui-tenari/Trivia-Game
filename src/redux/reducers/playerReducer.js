@@ -1,17 +1,43 @@
-import { SET_TOKEN } from '../actions';
+import { LOGIN, SET_SCORE } from '../actions';
 
 const INITIAL_STATE = {
-  name: 'Pedro Sehn',
-  email: 'pedrorsehn@hotmail.com',
+  name: '',
+  gravatarEmail: '',
   token: '',
-  assertions: 0,
   score: 0,
+  assertions: 0,
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case SET_TOKEN:
-    return { ...state, token: action.token };
+  case LOGIN:
+    localStorage.setItem('state', JSON.stringify({
+      player: {
+        ...state,
+        token: action.token,
+        name: action.name,
+        gravatarEmail: action.email,
+      },
+    }));
+    return {
+      ...state,
+      token: action.token,
+      name: action.name,
+      gravatarEmail: action.email,
+    };
+  case SET_SCORE:
+    localStorage.setItem('state', JSON.stringify({
+      player: {
+        ...state,
+        score: state.score + action.payload,
+        assertions: state.assertions + 1,
+      },
+    }));
+    return {
+      ...state,
+      score: state.score + action.payload,
+      assertions: state.assertions + 1 };
+
   default:
     return state;
   }

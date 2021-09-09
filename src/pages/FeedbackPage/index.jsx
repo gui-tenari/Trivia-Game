@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { Link } from 'react-router-dom';
 
 class FeedbackPage extends React.Component {
   constructor() {
@@ -52,13 +53,16 @@ class FeedbackPage extends React.Component {
           </div>
         </div>
         <div data-testid="feedback-text">{ this.handleFeedbackMsg(assertions) }</div>
+        <Link to="/">
+          <button type="button" data-testid="btn-play-again">Jogar novamente</button>
+        </Link>
       </>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  email: state.player.email,
+  email: state.player.gravatarEmail,
   name: state.player.name,
   score: state.player.score,
   assertions: state.player.assertions,
