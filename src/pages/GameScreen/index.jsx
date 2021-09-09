@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { fetchQuestions, answerQuestion } from '../../redux/actions';
 import Question from '../../components/Question';
-import StopWatch from '../../components/StopWatch';
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -51,7 +50,7 @@ class GameScreen extends React.Component {
   }
 
   render() {
-    const { questions, name, answered } = this.props;
+    const { questions, name, answered, score } = this.props;
     const { currentQuestion } = this.state;
 
     return (
@@ -66,9 +65,8 @@ class GameScreen extends React.Component {
           <span
             data-testid="header-score"
           >
-            0
+            { score }
           </span>
-          <StopWatch />
         </header>
         <main>
           {
@@ -92,10 +90,9 @@ class GameScreen extends React.Component {
 }
 
 GameScreen.propTypes = {
-  email: PropTypes.string.isRequired,
   answered: PropTypes.bool.isRequired,
+  email: PropTypes.string.isRequired,
   getQuestions: PropTypes.func.isRequired,
-  resetAnswer: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
@@ -104,6 +101,8 @@ GameScreen.propTypes = {
     question: PropTypes.string,
     category: PropTypes.string,
   })),
+  resetAnswer: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 GameScreen.defaultProps = {
@@ -113,8 +112,9 @@ GameScreen.defaultProps = {
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
   name: state.player.name,
-  email: state.player.email,
+  email: state.player.gravatarEmail,
   answered: state.game.isAnswered,
+  score: state.player.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
