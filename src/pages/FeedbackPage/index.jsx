@@ -40,13 +40,14 @@ class FeedbackPage extends React.Component {
           alt="profile avatar"
           src={ `https://www.gravatar.com/avatar/${avatarPath}` }
         />
-        <div data-testid="feedback-total-score">
-          <div data-testid="header-score">
-            Final Score:
+        <div data-testid="header-score">
+          { score }
+        </div>
+        <div>
+          <div data-testid="feedback-total-score">
             { score }
           </div>
           <div data-testid="feedback-total-question">
-            Acertions:
             { assertions }
           </div>
         </div>
