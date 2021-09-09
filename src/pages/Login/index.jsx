@@ -18,8 +18,9 @@ class Login extends React.Component {
   }
 
   handleClick() {
-    const { getTriviaToken } = this.props;
-    getTriviaToken();
+    const { getTriviaToken, history } = this.props;
+    const { name, email } = this.state;
+    getTriviaToken(name, email, history);
   }
 
   handleChange({ target: { name, value } }) {
@@ -49,16 +50,14 @@ class Login extends React.Component {
           value={ email }
           onChange={ this.handleChange }
         />
-        <Link to="/game">
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ !name || !email.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g) }
-            onClick={ this.handleClick }
-          >
-            Jogar
-          </button>
-        </Link>
+        <button
+          data-testid="btn-play"
+          type="button"
+          disabled={ !name || !email.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g) }
+          onClick={ this.handleClick }
+        >
+          Jogar
+        </button>
         <Link to="/settings">
           <button type="button" data-testid="btn-settings">Configurações</button>
         </Link>
@@ -69,10 +68,14 @@ class Login extends React.Component {
 
 Login.propTypes = {
   getTriviaToken: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getTriviaToken: () => dispatch(getTriviaTokenAction()),
+  getTriviaToken:
+    (name, email, history) => dispatch(getTriviaTokenAction(name, email, history)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
