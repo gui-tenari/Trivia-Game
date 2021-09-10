@@ -63,7 +63,18 @@ export const calculateScoreThunk = (difficulty, timer) => (dispatch) => {
   };
   const BASE_SCORE = 10;
   const score = BASE_SCORE + (timer * multiplicator[difficulty]);
-  // const state = getState();
-  // localStorage.setItem()
   dispatch(setScore(score));
 };
+
+export const SET_PLAYER_INFOS = 'SET_PLAYER_INFOS';
+
+export const setPlayerInfos = (player) => ({
+  type: SET_PLAYER_INFOS,
+  payload: player,
+});
+
+export const RESET_STORE = 'RESET_STORE';
+
+export const resetStore = () => ({
+  type: RESET_STORE,
+});

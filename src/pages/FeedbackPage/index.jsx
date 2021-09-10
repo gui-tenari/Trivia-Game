@@ -7,17 +7,17 @@ class FeedbackPage extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      feedbackMsg: '',
-    };
+    // this.state = {
+    //   feedbackMsg: '',
+    // };
 
     this.handleFeedbackMsg = this.handleFeedbackMsg.bind(this);
+    this.redirectToRanking = this.redirectToRanking.bind(this);
   }
 
   componentDidMount() {
     const { assertions } = this.props;
     this.handleFeedbackMsg(assertions);
-    console.log(this.state);
   }
 
   handleFeedbackMsg(assertionsNumber) {
@@ -27,6 +27,11 @@ class FeedbackPage extends React.Component {
       return 'Podia ser melhor...';
     }
     return 'Mandou bem!';
+  }
+
+  redirectToRanking() {
+    const { history } = this.props;
+    history.push('/ranking');
   }
 
   render() {
@@ -42,6 +47,13 @@ class FeedbackPage extends React.Component {
         />
         <div data-testid="header-score">{ score }</div>
         <div data-testid="feedback-text">{ this.handleFeedbackMsg(assertions) }</div>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ this.redirectToRanking }
+        >
+          Ranking
+        </button>
       </>
     );
   }
@@ -55,10 +67,13 @@ const mapStateToProps = (state) => ({
 });
 
 FeedbackPage.propTypes = {
+  assertions: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
-  assertions: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps)(FeedbackPage);

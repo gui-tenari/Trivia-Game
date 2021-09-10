@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
-import { fetchQuestions, answerQuestion } from '../../redux/actions';
+import {
+  fetchQuestions,
+  answerQuestion,
+  setPlayerInfos as setPlayerInfosAction,
+}
+  from '../../redux/actions';
 import Question from '../../components/Question';
 
 class GameScreen extends React.Component {
@@ -36,15 +41,22 @@ class GameScreen extends React.Component {
   }
 
   handleClick() {
-    const { history, questions, resetAnswer } = this.props;
-    const { currentQuestion } = this.state;
+    const { history,
+      questions,
+      resetAnswer,
+    } = this.props;
 
+    const { currentQuestion } = this.state;
     resetAnswer();
     if (currentQuestion < questions.length - 1) {
       this.setState(({ currentQuestion: current }) => ({
         currentQuestion: current + 1,
       }));
     } else {
+      const { name, score, email, setPlayerInfos } = this.props;
+      const emailConvert = md5(email).toString();
+      const player = { name, score, gravatarEmail: `https://www.gravatar.com/avatar/${emailConvert}` };
+      setPlayerInfos(player);
       history.push('/feedback');
     }
   }
@@ -103,6 +115,7 @@ GameScreen.propTypes = {
   })),
   resetAnswer: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
+  setPlayerInfos: PropTypes.func.isRequired,
 };
 
 GameScreen.defaultProps = {
@@ -120,6 +133,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getQuestions: () => dispatch(fetchQuestions()),
   resetAnswer: () => dispatch(answerQuestion(false)),
+  setPlayerInfos: (player) => dispatch(setPlayerInfosAction(player)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GameScreen);

@@ -2,7 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getTriviaToken as getTriviaTokenAction } from '../../redux/actions';
+import {
+  getTriviaToken as getTriviaTokenAction,
+  resetStore as resetStoreAction,
+}
+  from '../../redux/actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -15,6 +19,11 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const { resetStore } = this.props;
+    resetStore();
   }
 
   handleClick() {
@@ -71,11 +80,13 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  resetStore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getTriviaToken:
     (name, email, history) => dispatch(getTriviaTokenAction(name, email, history)),
+  resetStore: () => dispatch(resetStoreAction()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

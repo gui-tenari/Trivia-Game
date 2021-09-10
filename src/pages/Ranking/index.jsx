@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Ranking extends Component {
   constructor() {
@@ -13,15 +14,16 @@ class Ranking extends Component {
   }
 
   render() {
-    const currentRanking = JSON.parse(localStorage.getItem('ranking'));
+    const { currentRanking } = this.props;
     return (
       <>
+        <h1 data-testid="ranking-title">Ranking</h1>
         <ul>
           { currentRanking.map((user, index) => {
-            const { name, score, picture } = user;
+            const { name, score, gravatarEmail } = user;
             return (
-              <div key={ picture }>
-                <img src={ picture } alt="imagem da pessoa" />
+              <div key={ `${gravatarEmail}-${index}` }>
+                <img src={ gravatarEmail } alt="imagem da pessoa" />
                 <h4 data-testid={ `player-name-${index} ` }>{ name }</h4>
                 <p data-testid={ `player-score-${index}` }>
                   Score:
@@ -44,7 +46,12 @@ class Ranking extends Component {
 }
 
 Ranking.propTypes = {
+  currentRanking: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default Ranking;
+const mapStateToProps = (state) => ({
+  currentRanking: state.ranking,
+});
+
+export default connect(mapStateToProps)(Ranking);
