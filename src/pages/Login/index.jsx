@@ -43,8 +43,9 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
+    const { selected } = this.props;
 
-    return (
+    return !selected && (
       <fieldset>
         <input
           data-testid="input-player-name"
@@ -85,7 +86,12 @@ Login.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   resetStore: PropTypes.func.isRequired,
+  selected: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  selected: state.game.isAnswered,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   getTriviaToken:
@@ -94,4 +100,4 @@ const mapDispatchToProps = (dispatch) => ({
   getLocalStorage: (payload) => dispatch(getLocalStorageAction(payload)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
