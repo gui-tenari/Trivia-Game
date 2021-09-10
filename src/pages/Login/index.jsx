@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   getTriviaToken as getTriviaTokenAction,
-  resetStore as resetStoreAction,
   getLocalStorage as getLocalStorageAction,
 }
   from '../../redux/actions';
@@ -23,8 +22,7 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    const { resetStore, getLocalStorage } = this.props;
-    resetStore();
+    const { getLocalStorage } = this.props;
     const ranking = JSON.parse(localStorage.getItem('ranking'));
     getLocalStorage(ranking);
   }
@@ -43,9 +41,8 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
-    const { selected } = this.props;
 
-    return !selected && (
+    return (
       <fieldset>
         <input
           data-testid="input-player-name"
@@ -85,8 +82,6 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  resetStore: PropTypes.func.isRequired,
-  selected: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -96,7 +91,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTriviaToken:
     (name, email, history) => dispatch(getTriviaTokenAction(name, email, history)),
-  resetStore: () => dispatch(resetStoreAction()),
   getLocalStorage: (payload) => dispatch(getLocalStorageAction(payload)),
 });
 

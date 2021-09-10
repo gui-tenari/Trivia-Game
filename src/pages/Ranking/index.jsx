@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { resetStore as resetStoreAction } from '../../redux/actions';
 
 class Ranking extends Component {
   constructor() {
@@ -9,7 +10,8 @@ class Ranking extends Component {
   }
 
   redirectButton() {
-    const { history } = this.props;
+    const { history, resetStore } = this.props;
+    resetStore();
     history.push('/');
   }
 
@@ -47,10 +49,15 @@ class Ranking extends Component {
 Ranking.propTypes = {
   currentRanking: PropTypes.arrayOf(PropTypes.object).isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  resetStore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   currentRanking: state.ranking,
 });
 
-export default connect(mapStateToProps)(Ranking);
+const mapDispatchToProps = () => (dispatch) => ({
+  resetStore: () => dispatch(resetStoreAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ranking);

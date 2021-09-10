@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
+import { resetStore as resetStoreAction } from '../../redux/actions';
 
 class FeedbackPage extends React.Component {
   constructor() {
     super();
-
-    // this.state = {
-    //   feedbackMsg: '',
-    // };
 
     this.handleFeedbackMsg = this.handleFeedbackMsg.bind(this);
     this.redirectToRanking = this.redirectToRanking.bind(this);
@@ -36,7 +33,8 @@ class FeedbackPage extends React.Component {
   }
 
   redirectToHome() {
-    const { history } = this.props;
+    const { history, resetStore } = this.props;
+    resetStore();
     history.push('/');
   }
 
@@ -89,6 +87,10 @@ const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
 });
 
+const mapDispatchToProps = () => (dispatch) => ({
+  resetStore: () => dispatch(resetStoreAction()),
+});
+
 FeedbackPage.propTypes = {
   assertions: PropTypes.number.isRequired,
   email: PropTypes.string.isRequired,
@@ -96,7 +98,8 @@ FeedbackPage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   name: PropTypes.string.isRequired,
+  resetStore: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(FeedbackPage);
+export default connect(mapStateToProps, mapDispatchToProps)(FeedbackPage);
