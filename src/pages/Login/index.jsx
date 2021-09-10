@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {
   getTriviaToken as getTriviaTokenAction,
   resetStore as resetStoreAction,
+  getLocalStorage as getLocalStorageAction,
 }
   from '../../redux/actions';
 
@@ -22,8 +23,10 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    const { resetStore } = this.props;
+    const { resetStore, getLocalStorage } = this.props;
     resetStore();
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    getLocalStorage(ranking);
   }
 
   handleClick() {
@@ -76,6 +79,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  getLocalStorage: PropTypes.func.isRequired,
   getTriviaToken: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -87,6 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
   getTriviaToken:
     (name, email, history) => dispatch(getTriviaTokenAction(name, email, history)),
   resetStore: () => dispatch(resetStoreAction()),
+  getLocalStorage: (payload) => dispatch(getLocalStorageAction(payload)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

@@ -78,3 +78,10 @@ export const RESET_STORE = 'RESET_STORE';
 export const resetStore = () => ({
   type: RESET_STORE,
 });
+
+export const GET_LOCAL_STORAGE = 'GET_LOCAL_STORAGE';
+
+export const getLocalStorage = (payload) => ({
+  type: GET_LOCAL_STORAGE,
+  payload,
+});
