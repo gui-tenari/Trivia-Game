@@ -13,6 +13,7 @@ class FeedbackPage extends React.Component {
 
     this.handleFeedbackMsg = this.handleFeedbackMsg.bind(this);
     this.redirectToRanking = this.redirectToRanking.bind(this);
+    this.redirectToHome = this.redirectToHome.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +35,11 @@ class FeedbackPage extends React.Component {
     history.push('/ranking');
   }
 
+  redirectToHome() {
+    const { history } = this.props;
+    history.push('/');
+  }
+
   render() {
     const { email, name, score, assertions } = this.props;
     const avatarPath = md5(email).toString();
@@ -45,7 +51,17 @@ class FeedbackPage extends React.Component {
           alt="profile avatar"
           src={ `https://www.gravatar.com/avatar/${avatarPath}` }
         />
-        <div data-testid="header-score">{ score }</div>
+        <div data-testid="header-score">
+          { score }
+        </div>
+        <div>
+          <div data-testid="feedback-total-score">
+            { score }
+          </div>
+          <div data-testid="feedback-total-question">
+            { assertions }
+          </div>
+        </div>
         <div data-testid="feedback-text">{ this.handleFeedbackMsg(assertions) }</div>
         <button
           type="button"
@@ -53,6 +69,13 @@ class FeedbackPage extends React.Component {
           onClick={ this.redirectToRanking }
         >
           Ranking
+        </button>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.redirectToHome }
+        >
+          Jogar novamente
         </button>
       </>
     );
