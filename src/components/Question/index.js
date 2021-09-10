@@ -39,6 +39,13 @@ class Question extends React.Component {
     this.setState({ timer: newTime });
   }
 
+  isDisabled(bool) {
+    if (bool) {
+      return { disabled: true };
+    }
+    return '';
+  }
+
   render() {
     const {
       question,
@@ -62,7 +69,7 @@ class Question extends React.Component {
                 data-testid={
                   answer === correctAnswer ? 'correct-answer' : `wrong-answer-${index}`
                 }
-                disabled={ selected }
+                { ...this.isDisabled(selected) }
                 className={ this.isWrong(answer, index) }
                 type="button"
                 key={ answer }
