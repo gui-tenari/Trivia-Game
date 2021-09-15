@@ -1,4 +1,4 @@
-import { SET_QUESTIONS, ANSWER_QUESTION } from '../actions';
+import { SET_QUESTIONS, ANSWER_QUESTION, RESET_STORE } from '../actions';
 
 const INITIAL_STATE = {
   questions: [],
@@ -17,6 +17,8 @@ const gameReducer = (state = INITIAL_STATE, action) => {
       ...state,
       isAnswered: action.payload,
     };
+  case RESET_STORE:
+    return INITIAL_STATE;
   default:
     return state;
   }

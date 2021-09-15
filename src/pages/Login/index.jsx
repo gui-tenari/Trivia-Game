@@ -20,6 +20,12 @@ class Login extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentDidMount() {
+    const { getLocalStorage } = this.props;
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    getLocalStorage(ranking);
+  }
+
   handleClick() {
     const { getTriviaToken, history } = this.props;
     const { name, email } = this.state;
@@ -92,14 +98,21 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  getLocalStorage: PropTypes.func.isRequired,
   getTriviaToken: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  getTriviaToken: (name, email) => dispatch(getTriviaTokenAction(name, email)),
+const mapStateToProps = (state) => ({
+  selected: state.game.isAnswered,
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = (dispatch) => ({
+  getTriviaToken:
+    (name, email, history) => dispatch(getTriviaTokenAction(name, email, history)),
+  getLocalStorage: (payload) => dispatch(getLocalStorageAction(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
