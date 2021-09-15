@@ -1,1 +1,16 @@
 /* StopWatch styles */
+#timer {
+  background-color: rgba(245, 227, 227, 0.726);
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid black;
+  font-weight:bold;
+  font-size:xx-large;
+  margin-top: 10px;
+  margin-left: -30px;
+
+}

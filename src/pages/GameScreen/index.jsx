@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import { Button, Container, Row, Col } from 'reactstrap';
 
 import { fetchQuestions, answerQuestion } from '../../redux/actions';
 import Question from '../../components/Question';
 import StopWatch from '../../components/StopWatch';
+import './style.css';
 
 class GameScreen extends React.Component {
   constructor(props) {
@@ -29,6 +31,7 @@ class GameScreen extends React.Component {
     const emailConvert = md5(email).toString();
     return (
       <img
+        id="profile-picture"
         src={ `https://www.gravatar.com/avatar/${emailConvert}` }
         alt="User avatar"
         data-testid="header-profile-picture"
@@ -55,21 +58,27 @@ class GameScreen extends React.Component {
     const { currentQuestion } = this.state;
 
     return (
-      <>
-        <header>
-          <div>
-            { this.getAvatar() }
-          </div>
-          <p data-testid="header-player-name">
-            { name }
-          </p>
-          <span
-            data-testid="header-score"
-          >
-            0
-          </span>
-          <StopWatch />
-        </header>
+      <Container>
+        <Row>
+          <Col>
+            <StopWatch />
+          </Col>
+          <Col>
+            <header id="user-data">
+              <div>
+                { this.getAvatar() }
+              </div>
+              <p data-testid="header-player-name">
+                { name }
+              </p>
+              <span
+                data-testid="header-score"
+              >
+                0
+              </span>
+            </header>
+          </Col>
+        </Row>
         <main>
           {
             questions.length && <Question { ...questions[currentQuestion] } />
@@ -86,7 +95,7 @@ class GameScreen extends React.Component {
             )
           }
         </main>
-      </>
+      </Container>
     );
   }
 }

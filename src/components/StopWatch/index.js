@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { answerQuestion } from '../../redux/actions/index';
+import './style.css';
 
 class StopWatch extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class StopWatch extends Component {
   render() {
     const { timer } = this.state;
     return (
-      <p>{ timer }</p>
+      <div id="timer">{ timer }</div>
     );
   }
 }

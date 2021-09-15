@@ -1,8 +1,11 @@
+/* eslint-disable max-lines-per-function */
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Button, Form, Input, Container, Row, Col } from 'reactstrap';
 import { getTriviaToken as getTriviaTokenAction } from '../../redux/actions';
+import './styles.css';
+import TriviaLogo from './Images/trivia.png';
 
 class Login extends React.Component {
   constructor(props) {
@@ -18,9 +21,10 @@ class Login extends React.Component {
   }
 
   handleClick() {
-    const { getTriviaToken } = this.props;
+    const { getTriviaToken, history } = this.props;
     const { name, email } = this.state;
     getTriviaToken(name, email);
+    history.push('/game');
   }
 
   handleChange({ target: { name, value } }) {
@@ -31,45 +35,67 @@ class Login extends React.Component {
 
   render() {
     const { name, email } = this.state;
-
     return (
-      <fieldset>
-        <input
-          data-testid="input-player-name"
-          type="text"
-          name="name"
-          placeholder="Nome"
-          value={ name }
-          onChange={ this.handleChange }
-        />
-        <input
-          data-testid="input-gravatar-email"
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={ email }
-          onChange={ this.handleChange }
-        />
-        <Link to="/game">
-          <button
+      <Form>
+        <img src={ TriviaLogo } alt="Trivia Logo" />
+        <Container id="inputs-container">
+          <Row>
+            <Col>
+              <Input
+                data-testid="input-player-name"
+                type="text"
+                name="name"
+                placeholder="Nome"
+                value={ name }
+                onChange={ this.handleChange }
+                size="lg"
+              />
+            </Col>
+            <Col>
+              <Input
+                data-testid="input-gravatar-email"
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={ email }
+                onChange={ this.handleChange }
+                size="lg"
+              />
+            </Col>
+          </Row>
+        </Container>
+        <Container id="btns">
+          <Button
             data-testid="btn-play"
             type="button"
+            id="btn-play"
             disabled={ !name || !email.match(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/g) }
             onClick={ this.handleClick }
+            color="success"
+            size="lg"
           >
             Jogar
-          </button>
-        </Link>
-        <Link to="/settings">
-          <button type="button" data-testid="btn-settings">Configurações</button>
-        </Link>
-      </fieldset>
+          </Button>
+          <Button
+            type="button"
+            data-testid="btn-settings"
+            id="btn-settings"
+            color="info"
+            size="lg"
+          >
+            Configurações
+          </Button>
+        </Container>
+      </Form>
     );
   }
 }
 
 Login.propTypes = {
   getTriviaToken: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,0 +1,11 @@
+#user-data {
+  border: 2px solid black;
+  background-color: red;
+  height: 200px;
+}
+
+
+#profile-picture {
+  width: 80px;
+  height: 80px;;
+}

@@ -1,1 +1,26 @@
-/* Login styles */
+
+body {
+    background: url(./Images/background-img.jpg) no-repeat;
+    background-size: cover;
+}
+
+img {
+    margin-top: 5px;
+    width: 70%;
+    height: 20%;
+}
+
+#inputs-container {
+   margin-top: 10vh;
+}
+
+input {
+    border: 1px solid red;
+}
+
+#btns {
+    margin-top: 20px;
+    width: 300px;
+    display: flex;
+    justify-content: space-around;
+}
