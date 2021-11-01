@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Button } from 'reactstrap';
 
 import {
   fetchQuestions,
@@ -11,7 +11,6 @@ import {
 }
   from '../../redux/actions';
 import Question from '../../components/Question';
-import StopWatch from '../../components/StopWatch';
 import './style.css';
 
 class GameScreen extends React.Component {
@@ -71,39 +70,35 @@ class GameScreen extends React.Component {
 
     return (
       <Container>
-        <Row>
-          <Col>
-            <StopWatch />
-          </Col>
-          <Col>
-            <header id="user-data">
-              <div>
-                { this.getAvatar() }
-              </div>
-              <p data-testid="header-player-name">
-                { name }
-              </p>
-              <span
-                data-testid="header-score"
-              >
-                { score }
-              </span>
-            </header>
-          </Col>
-        </Row>
+        <header id="user-data">
+          <div>
+            { this.getAvatar() }
+          </div>
+          <p data-testid="header-player-name">
+            <strong>{ name }</strong>
+          </p>
+          <span
+            data-testid="header-score"
+          >
+            <strong>Score:  </strong>
+            { score }
+          </span>
+        </header>
         <main>
           {
             questions.length && <Question { ...questions[currentQuestion] } />
           }
           {
             answered && (
-              <button
+              <Button
                 data-testid="btn-next"
                 type="button"
                 onClick={ this.handleClick }
+                id="next-button"
+                color="warning"
               >
                 Próxima
-              </button>
+              </Button>
             )
           }
         </main>

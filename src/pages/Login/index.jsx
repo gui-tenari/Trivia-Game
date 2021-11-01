@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, Input, Container, Row, Col } from 'reactstrap';
-import { getTriviaToken as getTriviaTokenAction } from '../../redux/actions';
+import {
+  getTriviaToken as getTriviaTokenAction,
+  getLocalStorage as getLocalStorageAction,
+} from '../../redux/actions';
 import './styles.css';
 import TriviaLogo from './Images/trivia.png';
 

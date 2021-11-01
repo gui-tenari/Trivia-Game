@@ -1,11 +1,20 @@
 #user-data {
-  border: 2px solid black;
-  background-color: red;
+  border: 2px solid rgb(253, 252, 252);
   height: 200px;
+  background-color: rgba(169, 169, 169, 0.527);
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 800px;
+  margin-top: 10px;
 }
 
 
 #profile-picture {
   width: 80px;
   height: 80px;;
+}
+
+#next-button {
+  font-weight: bolder;
 }
